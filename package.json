@@ -29,8 +29,23 @@
     "eslint-import-resolver-node": "^0.3.4",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.3.1",
+    "husky": ">=4",
+    "lint-staged": ">=10",
     "nodemon": "^2.0.7",
     "prettier": "2.2.1",
     "supports-color": "^8.1.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "eslint",
+      "prettier",
+      "prettier --write",
+      "eslint --fix"
+    ]
   }
 }
