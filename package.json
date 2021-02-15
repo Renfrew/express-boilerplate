@@ -11,6 +11,8 @@
   "license": "MIT",
   "scripts": {
     "start": "nodemon -r dotenv/config app.js",
+    "lint": "eslint --ext .js,.ts,.tsx . && prettier --check .",
+    "lint:fix": "prettier --write . && eslint --fix",
     "test": "echo 'Error: no test specified' && exit 1"
   },
   "dependencies": {
@@ -21,6 +23,14 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.7"
+    "eslint": "^7.20.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^7.2.0",
+    "eslint-import-resolver-node": "^0.3.4",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.3.1",
+    "nodemon": "^2.0.7",
+    "prettier": "2.2.1",
+    "supports-color": "^8.1.1"
   }
 }

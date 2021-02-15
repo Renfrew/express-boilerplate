@@ -1,11 +1,10 @@
 const createError = require('http-errors');
 const express = require('express');
-const path = require('path');
 const logger = require('morgan');
-var debug = require('debug')('space:server');
-var http = require('http');
+const debug = require('debug')('space:server');
+const http = require('http');
 
-const apiRouter = require('./routes/api')
+const apiRouter = require('./src/routes/api');
 
 const app = express();
 
@@ -14,20 +13,36 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Routes ** All custom routes go before the error handler **
+/** ********************************************************************
+ *
+ * Routes. All Routes should go before the error handler
+ *
+ ********************************************************************* */
 app.use('/', apiRouter);
 
 app.get('/', (req, res) => {
-  res.send('Welcome to Renfrew\'s Space REST API Microservice');
+  res.send("Welcome to Renfrew's Space REST API Microservice");
 });
 
+/** ********************************************************************
+ *
+ * Error handler
+ *
+ ********************************************************************* */
+
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
   next(createError(404));
 });
 
 // error handler
 app.use(errorHandler);
+
+/** ********************************************************************
+ *
+ * Server Start up
+ *
+ ********************************************************************* */
 
 // Get port from the environment
 const port = normalizePort(process.env.PORT || '3000');
@@ -39,16 +54,15 @@ server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
-/**********************************************************************
+/** ********************************************************************
  *
  * Helper functions
  *
- **********************************************************************/
+ ********************************************************************* */
 
 /**
  * Error handler
  */
-
 function errorHandler(err, req, res, next) {
   // send the error
   res.status(err.status || 500).send(err);
@@ -57,18 +71,17 @@ function errorHandler(err, req, res, next) {
 /**
  * Normalize a port into a number, string, or false.
  */
-
 function normalizePort(val) {
-  var port = parseInt(val, 10);
+  const ret_port = parseInt(val, 10);
 
-  if (isNaN(port)) {
+  if (Number.isNaN(ret_port)) {
     // named pipe
     return val;
   }
 
-  if (port >= 0) {
+  if (ret_port >= 0) {
     // port number
-    return port;
+    return ret_port;
   }
 
   return false;
@@ -77,22 +90,23 @@ function normalizePort(val) {
 /**
  * Event listener for HTTP server "error" event.
  */
-
 function onError(error) {
   if (error.syscall !== 'listen') {
     throw error;
   }
 
-  var bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
+  const bind = typeof port === 'string' ? `Pipe ${port}` : `Port ${port}`;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
+      // eslint-disable-next-line no-console
+      console.error(`${bind} requires elevated privileges`);
       process.exit(1);
       break;
     case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
+      // eslint-disable-next-line no-console
+      console.error(`${bind} is already in use`);
       process.exit(1);
       break;
     default:
@@ -103,9 +117,8 @@ function onError(error) {
 /**
  * Event listener for HTTP server "listening" event.
  */
-
 function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+  const addr = server.address();
+  const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
+  debug(`Listening on ${bind}`);
 }
