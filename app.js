@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/', apiRouter);
 
 app.get('/', (req, res) => {
-  res.send("Welcome to Renfrew's Space REST API Microservice");
+  res.send('Welcome to the awsome REST API Microservice');
 });
 
 /** ********************************************************************
